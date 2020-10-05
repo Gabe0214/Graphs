@@ -81,7 +81,12 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if starting_vertex in visited:
+            return
+        visited.add(starting_vertex)
+        print(starting_vertex)
+        for n in self.get_neighbors(starting_vertex):
+            self.dft_recursive(n, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -89,7 +94,21 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        queue = Queue()
+        queue.enqueue([starting_vertex])
+        visited = set()
+
+        while queue.size() > 0:
+            new_path = queue.dequeue()
+            start_n = new_path[-1]
+            if start_n not in visited:
+                if start_n is destination_vertex:
+                    return new_path
+                visited.add(start_n)
+                for n in self.get_neighbors(start_n):
+                    update_path = list(new_path)
+                    update_path.append(n)
+                    queue.enqueue(update_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -97,9 +116,26 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stacky = Stack()
+        visited = set()
+        stacky.push([starting_vertex])
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+        while stacky.size() > 0:
+            new_path = stacky.pop()
+            start = new_path[-1]
+            if start == destination_vertex:
+                return new_path
+            if start not in visited:
+                visited.add(start)
+
+                for n in self.get_neighbors(start):
+                    updated_path = list(new_path)
+                    updated_path.append(n)
+                    stacky.push(updated_path)
+
+
+
+    def dfs_recursive(self, starting_vertex, destination_vertex, paths=Queue(),visited=set()):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -107,7 +143,21 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+
+        path = paths.dequeue()
+        if path == None:
+            path = [starting_vertex]
+
+        if path[-1] not in visited:
+            visited.add(path[-1])
+            for n in self.get_neighbors(path[-1]):
+                if n == destination_vertex:
+                    path.append(n)
+                    return path
+                update_path = list(path)
+                update_path.append(n)
+                paths.enqueue(update_path)
+            return self.dfs_recursive(starting_vertex, destination_vertex, paths, visited)
 
 # if __name__ == '__main__':
 #     graph = Graph()  # Instantiate your graph
