@@ -97,9 +97,11 @@ class Graph:
         queue = Queue()
         queue.enqueue([starting_vertex])
         visited = set()
-
+        counter = 0
         while queue.size() > 0:
             new_path = queue.dequeue()
+            counter += 1
+            print( counter, new_path)
             start_n = new_path[-1]
             if start_n not in visited:
                 if start_n is destination_vertex:
@@ -145,8 +147,10 @@ class Graph:
         """
 
         path = paths.dequeue()
+        # print(path)
         if path == None:
             path = [starting_vertex]
+
 
         if path[-1] not in visited:
             visited.add(path[-1])
@@ -227,11 +231,15 @@ class Graph:
 #     print(graph.dfs(1, 6))
 #     print(graph.dfs_recursive(1, 6))
 
-g1 = Graph()
-g1.add_vertex(10)
-g1.add_vertex(2)
-g1.add_vertex(6)
-g1.add_edge(10,2)
-g1.add_edge(6,10)
-g1.bft(6)
+# g1 = Graph()
+# g1.add_vertex(10)
+# g1.add_vertex(2)
+# g1.add_vertex(6)
+# g1.add_edge(10,2)
+# g1.add_edge(6,10)
+# g1.bft(6)
 
+# arry_1 = [1,2]
+# new_arry = list(arry_1)
+# new_arry.append(3)
+# print(new_arry)
