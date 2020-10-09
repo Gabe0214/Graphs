@@ -27,8 +27,46 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = []
 
+
+def traverse(player, world, room_graph):
+	path = []  # Keep path here
+	room_stack = []  # Rooms
+	room_stack.append(player.current_room.id)
+	print(player.current_room.id)
+	visited_rooms = set()
+	# Need loop to end when len(visited_rooms) == len(world.rooms)
+	while len(visited_rooms) != len(world.rooms):
+		current_room = room_stack[-1]
+		visited_rooms.add(current_room)
+		connecting_rooms = room_graph[current_room][1]
+		connecting_rooms_queue = []
+
+		for name, con_room in connecting_rooms.items():
+			if con_room not in visited_rooms:
+				connecting_rooms_queue.append(con_room)
+
+		if len(connecting_rooms_queue) != 0:
+			next_room = connecting_rooms_queue[0]
+			# print('NR', next_room)
+			room_stack.append(next_room)
+
+		# If the queue is empty
+		else:
+			room_stack.pop()
+			next_room = room_stack[-1]
+
+		for name, con_room in connecting_rooms.items():
+			if con_room == next_room:
+
+				path.append(name)
+		print('room queue', connecting_rooms_queue)
+		print('room stack', room_stack)
+
+	return path
+
+
+traversal_path = traverse(player, world, room_graph)
 
 
 # TRAVERSAL TEST
@@ -52,11 +90,12 @@ else:
 # UNCOMMENT TO WALK AROUND
 #######
 player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+#
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")
